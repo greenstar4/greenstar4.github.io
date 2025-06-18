@@ -1,0 +1,65 @@
+<!-- contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Me</title>
+  <style>
+    body {
+      background-color: #121214;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #4ade80;
+    }
+    a {
+      color: #4ade80;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    form {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+    }
+    input, textarea {
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+    button {
+      background-color: #4ade80;
+      color: #000;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover {
+      background-color: #22c55e;
+    }
+  </style>
+</head>
+<body>
+  <h1>Contact Me</h1>
+  <p>Have questions or ideas? Drop me a message!</p>
+ <form action="https://formspree.io/f/xvgrovkr" method="POST">
+  <input type="text" name="name" placeholder="Your Name" required />
+  <input type="email" name="email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+  <button type="submit">Send</button>
+</form>
+  <input type="hidden" name="_next" value="thankyou.html" />
+  <p><a href="index.html">← Back to Home</a></p>
+</body>
+</html>

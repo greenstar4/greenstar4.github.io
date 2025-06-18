@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Star</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  line-height: 1.6;
+  padding-top: 48px; /* Prevent content from hiding under header */
+  overflow-x: hidden; /* Stop horizontal scroll */
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+  padding: 0 20px;
+  color: #000000;
+  font-weight: bold;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 240px;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar .logo {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.sidebar a {
+  color: #000000;
+  padding: 14px 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar a:hover {
+  background-color: #dcdcdc;
+}
+
+main {
+  padding: 10px 16px;
+  max-width: 100%;
+}
+
+@media (min-width: 700px) {
+  .sidebar {
+    left: 0;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  main {
+    margin-left: 240px;
+  }
+}
+
+.post-preview {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 16px;
+  margin: 20px 0;
+}
+
+.post-preview h1 {
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  margin-bottom: 0.3em;
+}
+
+.post-preview p {
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
+  color: #333;
+}
+
+.hero-description {
+  padding: 24px 16px;
+  background-color: white;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.hero-description h2 {
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  color: #000000;
+}
+
+.hero-description p {
+  font-size: clamp(1rem, 3vw, 1.15rem);
+  color: #444;
+  max-width: 500px;
+  margin: 10px auto 0;
+}
+
+.header-line {
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 0px;
+}
+
+.share-header {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #111;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+a.read-more {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+a.read-more:hover {
+  color: #000088;
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+  </style>
+  <style> html { scroll-behavior: smooth; } </style>
+</head>
+<body>
+  <header>
+    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <nav style="display: flex; align-items: center; background-color:transparent; padding: 10px;">
+      <h1 style="color: #000000; margin: 0; font-family: 'Trebuchet MS', sans-serif;">GREEN STAR</h1>
+    </nav>
+    <button class="share-header" onclick="sharePost()">
+      <i class="fas fa-share-alt"></i>
+    </button>
+    <script>
+      function sharePost() {
+        if (navigator.share) {
+          navigator.share({
+            title: document.title,
+            text : "Check this out!",
+            url : window.location.href
+          })
+          .then(() => console.log('Shared successfully'))
+          .catch((error) => console.log('Error sharing:', error));
+        } else {
+          alert("Sharing is not supported on this browser. You can copy the URL.");
+        }
+      }
+    </script>
+    
+  </header>
+  <hr class="header-line">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo"></div>
+    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+    <a href="about.html"><i class="fas fa-user"></i> About</a>
+    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    <a href="https://youtube.com/@greenstar.2?si=ByDnr9nI5j4zkZc7"><i class="fab fa-youtube"></i> YouTube</a>
+    <a href="privacy.html"><i class="fas fa-shield"></i> Privacy Policy</a>
+  </aside>
+
+  <section class="hero-description">
+    <h2>Welcome to Green Star</h2>
+    <p>Explore blogs on creativity, design, and tech. Follow my journey of ideas and inspiration!</p>
+  </section>
+
+  <main>
+    <div class="post-preview">
+      <h1>💬 Let’s Connect — Find Me on Social Media</h1>
+      <time datetime="2025-06-02">June 2, 2025</time>
+      <p>I'm active on YouTube, Instagram, GitHub, LinkedIn, and more. Follow me for creative content, code projects, and updates. Let’s build something amazing together!</p>
+      <a href="post1.html" class="read-more">Read More</a>
+    </div>
+  </main>
+  <main>
+    <div class="post-preview">
+      <h1>▶️ Start Your YouTube Journey: A Fun Guide to Creating a Content Channel </h1>
+      <time datetime="2025-06-02">June 2, 2025</time>
+      <p>Ever dreamed of becoming a YouTuber? This fun and beginner-friendly guide walks you through everything you need to know—from finding your passion to editing your first viral video. Let’s turn your content dreams into reality!</p>
+      <a href="post2.html" class="read-more">Read More</a>
+    </div>
+    </main>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
