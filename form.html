@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Green Star – Upload for Editing</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0fff0;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 32px 28px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    h2 {
+      text-align: center;
+      color: #00b386;
+      margin-bottom: 30px;
+      font-size: 26px;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+      font-size: 15px;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #fafafa;
+      transition: border 0.3s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #00b386;
+      background: #fff;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .file-upload {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .file-upload input[type="file"] { display: none; }
+    .file-upload label {
+      background: #00b386;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .file-upload label:hover { background: #00996f; }
+    .file-name {
+      font-size: 14px;
+      color: #444;
+      font-style: italic;
+    }
+    button {
+      width: 100%;
+      background: #00b386;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover { background: #00996f; }
+    .hidden { display: none; }
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    @media screen and (max-width: 500px) {
+      .container { padding: 24px 18px; }
+      h2 { font-size: 22px; }
+      .file-upload {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .file-upload label {
+        width: 100%;
+        text-align: center;
+      }
+      .file-name { margin-top: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📤 GREEN STAR – Upload for Editing</h2>
+
+  <form id="editForm"
+        action="https://formspree.io/f/xvgrovkr"
+        method="POST" 
+        enctype="multipart/form-data">
+    
+    <label for="name">👤 Your Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">📧 Your Email</label>
+    <input type="email" id="email" name="_replyto" required />
+
+    <label for="platform">🎯 Platform</label>
+    <select id="platform" name="platform" required onchange="updateContentOptions()">
+      <option value="">Select Platform</option>
+      <option value="youtube">📺 YouTube</option>
+      <option value="instagram">📱 Instagram</option>
+      <option value="business">🏢 Business</option>
+      <option value="personal">🙋 Personal</option>
+    </select>
+
+    <div id="mainContentTypeDiv">
+      <label for="contentType">🗂️ Content Type</label>
+      <select id="contentType" name="contentType" required onchange="setFileType()">
+        <option value="">Select Content Type</option>
+      </select>
+    </div>
+
+    <div id="personalTypeSection" class="hidden">
+      <label for="personalType">🙋 Personal Content Type</label>
+      <select id="personalType" name="personalType" onchange="setFileType()">
+        <option value="">Select</option>
+        <option value="photo">📷 Photo</option>
+        <option value="video">🎬 Video</option>
+      </select>
+    </div>
+
+    <label for="message">📝 Editing Instructions</label>
+    <textarea id="message" name="message" rows="4" required></textarea>
+
+    <label for="file">📎 Upload File</label>
+    <div class="file-upload">
+      <label for="file">Choose File</label>
+      <span class="file-name" id="fileName">No file selected</span>
+      <input type="file" id="file" name="attachment" required />
+    </div>
+
+    <button type="submit">📤 Submit Request</button>
+  </form>
+
+  <div class="success-message" id="successMessage" style="display:none;">
+    ✅ Thank you! Your request has been sent successfully.
+  </div>
+</div>
+
+<script>
+  const contentOptions = {
+    youtube: [
+      { value: "video", label: "🎬 Video" },
+      { value: "shorts", label: "✂️ Shorts" },
+      { value: "banner", label: "📢 Banner" },
+      { value: "logo", label: "🖼️ Logo" }
+    ],
+    instagram: [
+      { value: "reel", label: "📱 Reels" },
+      { value: "photo", label: "📷 Photo" },
+      { value: "story", label: "📲 Story Banner" },
+      { value: "logo", label: "🖼️ Logo" }
+    ],
+    business: [
+      { value: "logo", label: "🖼️ Logo" },
+      { value: "banner", label: "📢 Banner" },
+      { value: "photo", label: "📷 Photo" },
+      { value: "video", label: "🎬 Promo Video" }
+    ]
+  };
+
+  function updateContentOptions() {
+    const platform = document.getElementById("platform").value;
+    const contentType = document.getElementById("contentType");
+    const personalSection = document.getElementById("personalTypeSection");
+    const mainContentTypeDiv = document.getElementById("mainContentTypeDiv");
+
+    contentType.innerHTML = '<option value="">Select Content Type</option>';
+    personalSection.classList.add("hidden");
+
+    if (platform === "personal") {
+      personalSection.classList.remove("hidden");
+      mainContentTypeDiv.classList.add("hidden");
+    } else {
+      mainContentTypeDiv.classList.remove("hidden");
+      personalSection.classList.add("hidden");
+
+      if (contentOptions[platform]) {
+        contentOptions[platform].forEach(opt => {
+          const option = document.createElement("option");
+          option.value = opt.value;
+          option.textContent = opt.label;
+          contentType.appendChild(option);
+        });
+      }
+    }
+
+    setFileType();
+  }
+
+  function setFileType() {
+    const platform = document.getElementById("platform").value;
+    const contentType = document.getElementById("contentType").value;
+    const personalType = document.getElementById("personalType").value;
+    const fileInput = document.getElementById("file");
+
+    let type = "";
+
+    if (platform === "personal") {
+      if (personalType === "photo") type = "image/*";
+      else if (personalType === "video") type = "video/*";
+    } else {
+      const imageTypes = ["photo", "logo", "story", "banner"];
+      const videoTypes = ["video", "reel", "shorts"];
+      if (imageTypes.includes(contentType)) type = "image/*";
+      else if (videoTypes.includes(contentType)) type = "video/*";
+    }
+
+    fileInput.setAttribute("accept", type || "image/*,video/*");
+  }
+
+  document.getElementById("file").addEventListener("change", function () {
+    const fileName = this.files[0] ? this.files[0].name : "No file selected";
+    document.getElementById("fileName").textContent = fileName;
+  });
+
+  document.getElementById("editForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      if (response.ok) {
+        form.reset();
+        document.getElementById("fileName").textContent = "No file selected";
+        document.getElementById("successMessage").style.display = "block";
+      } else {
+        alert("❗ Submission failed. Please try again.");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
